@@ -1,93 +1,72 @@
-#include <stdio.h>
-#include <stdlib.h>
- 
+  #include <stdio.h>
 
-void Merge(int arr[], int left, int mid, int right)
-{
+void merge(int arr[], int l, int m, int r) {
     int i, j, k;
-    int size1 = mid - left + 1;
-    int size2 = right - mid;
- 
-    
-    int Left[size1], Right[size2];
- 
-   
-    for (i = 0; i < size1; i++)
-        Left[i] = arr[left + i];
- 
-    for (j = 0; j < size2; j++)
-        Right[j] = arr[mid + 1 + j];
- 
-   
+    int n1 = m - l + 1;
+    int n2 = r - m;
+    int L[n1], R[n2];
+
+    for (i = 0; i < n1; i++)
+        L[i] = arr[l + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[m + 1 + j];
+
     i = 0;
-    j = 0;	
-    k = left; 
-    while (i < size1 && j < size2)
-    {
-        if (Left[i] <= Right[j])
-        {
-            arr[k] = Left[i];
+    j = 0; 
+    k = l;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
             i++;
-        }
-        else
-        {
-            arr[k] = Right[j];
+        } else {
+            arr[k] = R[j];
             j++;
         }
         k++;
     }
- 
-  
-    while (i < size1)
-    {
-        arr[k] = Left[i];
+
+    while (i < n1) {
+        arr[k] = L[i];
         i++;
         k++;
     }
- 
-    
-    while (j < size2)
-    {
-        arr[k] = Right[j];
+
+    while (j < n2) {
+        arr[k] = R[j];
         j++;
         k++;
     }
 }
- 
-void Merge_Sort(int arr[], int left, int right)
-{
-    if (left < right)
-    {
- 
-        int mid = left + (right - left) / 2;
- 
-        Merge_Sort(arr, left, mid);
-        Merge_Sort(arr, mid + 1, right);
- 
-        Merge(arr, left, mid, right);
+
+void mergeSort(int arr[], int l, int r) {
+    if (l < r) {
+
+        int m = l + (r - l) / 2;
+
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+
+        merge(arr, l, m, r);
     }
 }
- 
-int main()
-{
-    int size;
-    printf("Enter the size: ");
-    scanf("%d", &size);
- 
-    int arr[size];
-    printf("Enter the elements of array: ");
-    for (int i = 0; i < size; i++)
-    {
-        scanf("%d", &arr[i]);
-    }
- 
-    Merge_Sort(arr, 0, size - 1);
- 
-    printf("The sorted array is: ");
-    for (int i = 0; i < size; i++)
-    {
-        printf("%d ", arr[i]);
-    }
+
+void printArray(int A[], int size) {
+    int i;
+    for (i = 0; i < size; i++)
+        printf("%d ", A[i]);
     printf("\n");
+}
+
+int main() {
+    int arr[] = {12, 11, 13, 5, 6, 7};
+    int arr_size = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Given array is \n");
+    printArray(arr, arr_size);
+
+    mergeSort(arr, 0, arr_size - 1);
+
+    printf("\nSorted array is \n");
+    printArray(arr, arr_size);
     return 0;
 }
